@@ -28,12 +28,6 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Lint
-        run: yarn lint
-
-      - name: Typecheck
-        run: yarn typecheck
-
       - name: Test
         run: yarn test
 
@@ -42,8 +36,3 @@ jobs:
         with:
           name: build-artifacts
           path: build
-
-      - name: Codecov
-        uses: codecov/codecov-action@v1.0.4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
