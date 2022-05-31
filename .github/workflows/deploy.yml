@@ -31,11 +31,11 @@ jobs:
         with:
           publish-dir: './build'
           production-branch: main
-          production-deploy: false
+          production-deploy: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: ${{ github.event.pull_request.title }}
           enable-pull-request-comment: true
-          enable-commit-comment: true
+          enable-commit-comment: false
           overwrites-pull-request-comment: true
           alias: deploy-preview-${{ github.event.number }}
         env:
