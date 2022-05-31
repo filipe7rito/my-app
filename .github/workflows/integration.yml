@@ -1,6 +1,7 @@
 name: Integration
 
-on: push
+# only trigger on pull request closed events
+on: pull_request
 
 jobs:
   build-and-test:
