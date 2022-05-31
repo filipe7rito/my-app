@@ -1,42 +1,17 @@
 name: Deploy
 
+# only trigger on pull request closed events
 on:
-  workflow_run:
-    workflows: ['Build and Test']
-    types:
-      - completed
+  pull_request:
+    branches:
+      - main
+    types: [closed]
 
 jobs:
   download-artifacts:
     name: Deploy artifacts
+    if: ${{ github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Download artifacts
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          workflow: build-and-test.yml
-          workflow_conclusion: success
-          name: build-artifacts
-          path: build
-          
-      - uses: nelonoel/branch-name@v1.0.1
-      - run: echo ${BRANCH_NAME}
-      
-      - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v1.2
-        with:
-          publish-dir: './build'
-          production-branch: main
-          production-deploy: false
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: ${{ github.event.pull_request.title }}
-          enable-pull-request-comment: true
-          enable-commit-comment: true
-          overwrites-pull-request-comment: true
-          alias: deploy-preview-${{ github.event.number }}
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        timeout-minutes: 1
+      - run: |
+          echo The PR was merged
