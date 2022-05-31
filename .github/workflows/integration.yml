@@ -40,7 +40,7 @@ jobs:
 
   deploy-netlify:
     name: Deploy
-    if: github.ref_name !== 'main'
+    if: github.ref_name != 'main'
     needs: build-and-test
     runs-on: ubuntu-latest
     steps:
