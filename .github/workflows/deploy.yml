@@ -29,6 +29,7 @@ jobs:
         with:
           publish-dir: './build'
           production-branch: main
+          production-deploy: false
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: ${{ github.event.pull_request.title }}
           enable-pull-request-comment: true
