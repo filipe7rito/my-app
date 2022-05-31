@@ -52,7 +52,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: build-artifacts
+          name: build-artifacts-${{ github.head_ref }}
 
       - uses: nelonoel/branch-name@v1.0.1
       - run: echo ${BRANCH_NAME}
