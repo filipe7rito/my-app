@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Download artifacts
         uses: dawidd6/action-download-artifact@v2
         with:
@@ -20,9 +20,11 @@ jobs:
           workflow_conclusion: success
           name: build-artifacts
           path: build
-
+          
+      - uses: nelonoel/branch-name@v1.0.1
+      
       - name: Netlify Deploy
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        run: netlify deploy --alias ${GITHUB_REF##*/}
+        run: netlify deploy --alias ${{ env.BRANCH_NAME }}
