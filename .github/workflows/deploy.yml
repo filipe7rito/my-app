@@ -21,6 +21,7 @@ jobs:
           workflow: integration.yml
           workflow_conclusion: success
           name: build-artifacts-${{ github.head_ref }}
+          branch: ${{ github.head_ref }}
           path: build
 
       - uses: nelonoel/branch-name@v1.0.1
