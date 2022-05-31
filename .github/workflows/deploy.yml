@@ -24,6 +24,8 @@ jobs:
       - uses: nelonoel/branch-name@v1.0.1
       - run: echo ${BRANCH_NAME}
       
+      - run: yarn install --frozen-lockfile
+      
       - name: Netlify Deploy
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
