@@ -39,6 +39,7 @@ jobs:
           
   deploy-netlify:
     name: Deploy artifacts
+    needs: build-and-test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
