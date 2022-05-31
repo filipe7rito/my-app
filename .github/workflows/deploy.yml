@@ -22,9 +22,10 @@ jobs:
           path: build
           
       - uses: nelonoel/branch-name@v1.0.1
+      - run: echo ${BRANCH_NAME}
       
       - name: Netlify Deploy
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        run: netlify deploy --alias ${{ env.BRANCH_NAME }}
+        run: netlify deploy --build --context deploy-preview --message "Deploy triggered by gh action"
