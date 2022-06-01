@@ -20,7 +20,7 @@ jobs:
         with:
           workflow: integration.yml
           workflow_conclusion: success
-          name: build-artifacts-${{ github.head_ref }}
+          name: build-artifacts
           branch: ${{ github.head_ref }}
           path: build
 
