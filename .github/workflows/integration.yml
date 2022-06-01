@@ -45,8 +45,6 @@ jobs:
     needs: build-and-test
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ github.event_name }}
-      - run: echo ${{ github.event.action }}
       - uses: actions/checkout@v2
 
       - name: Download artifacts
@@ -60,6 +58,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: arn:aws:iam::360354160185:root
       - run: aws s3 ls
 
       - name: Deploy app build to S3 bucket
