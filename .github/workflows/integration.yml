@@ -61,4 +61,5 @@ jobs:
       - run: aws s3 ls
 
       - name: Deploy app build to S3 bucket
+        run: ls
         run: aws s3 sync ./build-artifacts/ s3://demo-app-gh --delete
