@@ -61,7 +61,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::360354160185:role/GitHubActionRole
           aws-region: ${{ secrets.AWS_REGION }}
-          role-session-name: github-actions-role-session
+          role-session-name: GitHubActionRole
       - run: aws s3 ls
       - run: ls -la
       - name: Deploy app build to S3 bucket
