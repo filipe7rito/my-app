@@ -40,29 +40,35 @@ jobs:
           path: build
 
   deploy-netlify:
-    permissions:
-      id-token: write
-      contents: read # This is required for actions/checkout@v3
     name: Deploy
     if: github.ref_name != 'main'
     needs: build-and-test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - run: echo ${{ github.event_name }}
+      - run: echo ${{ github.event.action }}
+      - uses: actions/checkout@v2
 
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: build-artifacts
-          path: build
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - uses: nelonoel/branch-name@v1.0.1
+      - run: echo ${BRANCH_NAME}
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.2
         with:
-          role-to-assume: arn:aws:iam::360354160185:role/GitHubActionRole
-          aws-region: ${{ secrets.AWS_REGION }}
-          role-session-name: GitHubActionRole
-      - run: aws s3 ls
-      - run: ls -la
-      - name: Deploy app build to S3 bucket
-        run: aws s3 sync ./build s3://demo-app-gh --delete
+          publish-dir: './'
+          production-branch: main
+          production-deploy: false
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: ${{ github.event.pull_request.title }}
+          enable-pull-request-comment: false
+          enable-commit-comment: false
+          overwrites-pull-request-comment: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 1
