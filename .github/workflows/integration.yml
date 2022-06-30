@@ -1,7 +1,7 @@
 name: Integration
 
 # only trigger on pull request closed events
-on: pull_request
+on: push
 
 jobs:
   build-and-test:
@@ -62,7 +62,7 @@ jobs:
         with:
           publish-dir: './'
           production-branch: main
-          production-deploy: false
+          production-deploy: ${{ github.ref_name == 'main' }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: ${{ github.event.pull_request.title }}
           enable-pull-request-comment: true
