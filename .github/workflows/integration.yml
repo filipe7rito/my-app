@@ -1,7 +1,7 @@
 name: Integration
 
 # only trigger on pull request closed events
-on: pull_request
+on: push
 
 jobs:
   build-and-test:
@@ -41,7 +41,6 @@ jobs:
 
   deploy-netlify:
     name: Deploy
-    if: github.ref_name != 'main'
     needs: build-and-test
     runs-on: ubuntu-latest
     steps:
@@ -62,12 +61,12 @@ jobs:
         with:
           publish-dir: './'
           production-branch: main
-          production-deploy: false
+          production-deploy: ${{ github.ref_name == 'main' }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: ${{ github.event.pull_request.title }}
-          enable-pull-request-comment: false
+          enable-pull-request-comment: true
           enable-commit-comment: false
-          overwrites-pull-request-comment: false
+          overwrites-pull-request-comment: true
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
