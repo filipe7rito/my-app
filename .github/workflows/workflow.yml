@@ -1,0 +1,25 @@
+name: Deploy
+
+# only trigger on pull request closed events
+on:
+  pull_request:
+    branches:
+      - develop
+    types: [closed]
+
+jobs:
+  merge-to-main:
+    name: Sync main with develop
+    if: github.event.pull_request.merged == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: develop
+      - name: Merge develop into main
+        run: |
+          git config --global user.email "
+          git config --global user.name "GitHub Actions"
+          git checkout main
+          git merge develop
+          git push
