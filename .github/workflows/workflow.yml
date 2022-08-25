@@ -1,0 +1,31 @@
+name: Workflow
+
+# only trigger on pull request closed events
+on:
+  pull_request:
+    branches:
+      - develop
+    types: [closed]
+
+jobs:
+  merge-to-main:
+    name: Sync main with develop
+    if: ${{ github.event.pull_request.merged }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: develop
+
+      - name: Set Git config
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Github Actions"
+
+      - name: Merge master back to dev
+        run: |
+          git fetch --unshallow
+          git checkout main
+          git pull
+          git merge --no-ff develop -m "Auto-merge develop to master"
+          git push

@@ -1,7 +1,11 @@
 name: Integration
 
-# only trigger on pull request closed events
-on: push
+# only trigger on pull request events
+on:
+  pull_request:
+    branches:
+      - develop
+    types: [opened, edited, reopened, synchronize]
 
 jobs:
   build-and-test:
