@@ -1,4 +1,4 @@
-name: Deploy
+name: Workflow
 
 # only trigger on pull request closed events
 on:
